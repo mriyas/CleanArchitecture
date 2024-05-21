@@ -1,8 +1,8 @@
 package com.riyas.cleanarchitecture.di
 
-import com.riyas.cleanarchitecture.api.ApiService
-import com.riyas.cleanarchitecture.repository.RecipeRepository
-import com.riyas.cleanarchitecture.repository.RecipeUseCase
+import com.riyas.cleanarchitecture.data.api.ApiService
+import com.riyas.cleanarchitecture.data.repository.RecipeRepository
+import com.riyas.cleanarchitecture.data.usecases.RecipeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

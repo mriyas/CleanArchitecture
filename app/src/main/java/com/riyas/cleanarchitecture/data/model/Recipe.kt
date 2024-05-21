@@ -9,9 +9,9 @@ data class ApiResponse(
 )
 data class Recipe (
     @SerializedName("id")
-    var id: Int=0,
+    val id: Int=0,
     @SerializedName("name")
-    var name: String="",
+    val name: String="",
     @SerializedName("instructions")
     val instructions: List<String> = arrayListOf(),
     @SerializedName("tags")

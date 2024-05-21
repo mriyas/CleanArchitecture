@@ -1,4 +1,4 @@
-package com.riyas.cleanarchitecture.api
+package com.riyas.cleanarchitecture.data.api
 
 import com.riyas.cleanarchitecture.data.model.ApiResponse
 import com.riyas.cleanarchitecture.data.model.User

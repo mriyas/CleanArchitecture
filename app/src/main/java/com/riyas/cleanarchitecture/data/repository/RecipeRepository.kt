@@ -1,6 +1,6 @@
-package com.riyas.cleanarchitecture.repository
+package com.riyas.cleanarchitecture.data.repository
 
-import com.riyas.cleanarchitecture.api.ApiService
+import com.riyas.cleanarchitecture.data.api.ApiService
 import com.riyas.cleanarchitecture.data.model.ApiResponse
 import com.riyas.cleanarchitecture.data.network.toResultFlow
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,17 +21,5 @@ class RecipeRepository @Inject constructor(
                 NetWorkResult.Success(response)
             }
         }
-    }
-}
-
-class RecipeUseCase(
-    private val recipeRepository: RecipeRepository,
-) {
-    // This method doesn't need to worry about moving the execution of the
-    // coroutine to a different thread as newsRepository is main-safe.
-    // The work done in the coroutine is lightweight as it only creates
-    // a list and add elements to it
-    suspend operator fun invoke(): Flow<NetWorkResult<ApiResponse>> {
-        return recipeRepository.getRecipes()
     }
 }

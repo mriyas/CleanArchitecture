@@ -7,31 +7,28 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.riyas.cleanarchitecture.ui.components.ProgressIndicator
 import com.riyas.cleanarchitecture.ui.components.RecipeList
+import com.riyas.cleanarchitecture.viewmodel.RecipeDataState
 import com.riyas.cleanarchitecture.viewmodel.RecipeViewModel
 
 @Composable
-fun DashboardScreen(viewModel: RecipeViewModel = hiltViewModel()){
+fun RecipeScreen(viewModel: RecipeViewModel = hiltViewModel()){
 
-    val homeScreenState by viewModel.homeViewState.collectAsState()
+    val recipeScreenState by viewModel.recipeDataState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getProducts()
+        viewModel.fetchRecipe()
     }
 
-    when (homeScreenState) {
-        is RecipeViewModel.HomeScreenState.Loading -> {
+    when (recipeScreenState) {
+        is RecipeDataState.Loading -> {
             ProgressIndicator()
         }
-        is RecipeViewModel.HomeScreenState.Success -> {
-            val products = (homeScreenState as RecipeViewModel.HomeScreenState.Success).responseData.list
+        is RecipeDataState.Success -> {
+            val products = (recipeScreenState as RecipeDataState.Success).responseData.list
             RecipeList(products)
         }
-        is RecipeViewModel.HomeScreenState.Error -> {
+        is RecipeDataState.Error -> {
            //show Error
-        }
-
-        else -> {
-            //no-op
         }
     }
 }
