@@ -1,26 +1,23 @@
-package com.riyas.cleanarchitecture.data.viewmodel
+package com.riyas.cleanarchitecture.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.riyas.cleanarchitecture.data.model.ApiResponse
-import com.riyas.cleanarchitecture.data.repository.RecipeRepository
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.riyas.cleanarchitecture.data.network.ApiStatus
-import com.riyas.cleanarchitecture.data.repository.RecipeUseCase
+import com.riyas.cleanarchitecture.repository.RecipeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor(
+class RecipeViewModel @Inject constructor(
     private val recipeUseCase: RecipeUseCase
 ): ViewModel() {
 
-    private val _homeState = MutableStateFlow(HomeState())
+    private val _recipeState = MutableStateFlow(HomeState())
     private val _homeViewState: MutableStateFlow<HomeScreenState> = MutableStateFlow(HomeScreenState.Loading)
     val homeViewState = _homeViewState.asStateFlow()
 
@@ -30,19 +27,19 @@ class DashboardViewModel @Inject constructor(
                 recipeUseCase().collect{ response ->
                     when(response.status){
                         ApiStatus.LOADING->{
-                            _homeState.update { it.copy(isLoading = true) }
+                            _recipeState.update { it.copy(isLoading = true) }
                         }
                         ApiStatus.SUCCESS->{
-                            _homeState.update { it.copy(isLoading = false, errorMessage = "", response.data) }
+                            _recipeState.update { it.copy(isLoading = false, responseData = response.data) }
                         }
                         ApiStatus.ERROR->{
-                            _homeState.update { it.copy(isLoading = false,errorMessage = response.message) }
+                            _recipeState.update { it.copy(isLoading = false,errorMessage = response.message) }
                         }
                     }
-                    _homeViewState.value = _homeState.value.toUiState()
+                    _homeViewState.value = _recipeState.value.toUiState()
                 }
             } catch (e: Exception) {
-                _homeState.update { it.copy(isLoading = false,errorMessage ="Failed to fetch data") }
+                _recipeState.update { it.copy(isLoading = false,errorMessage ="Failed to fetch data") }
             }
         }
     }
@@ -54,8 +51,8 @@ class DashboardViewModel @Inject constructor(
 
     private data class HomeState(
         val isLoading:Boolean = false,
-        val errorMessage: String?=null,
-        val responseData: ApiResponse?=null
+        val errorMessage: String? = null,
+        val responseData: ApiResponse? = null
     ) {
         fun toUiState(): HomeScreenState {
             return if (isLoading) {

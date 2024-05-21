@@ -1,6 +1,6 @@
 package com.riyas.cleanarchitecture.di
 
-import com.riyas.cleanarchitecture.data.api.ApiService
+import com.riyas.cleanarchitecture.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

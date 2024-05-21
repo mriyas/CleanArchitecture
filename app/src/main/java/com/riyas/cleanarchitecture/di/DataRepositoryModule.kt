@@ -1,8 +1,8 @@
 package com.riyas.cleanarchitecture.di
 
-import com.riyas.cleanarchitecture.data.api.ApiService
-import com.riyas.cleanarchitecture.data.repository.RecipeRepository
-import com.riyas.cleanarchitecture.data.repository.RecipeUseCase
+import com.riyas.cleanarchitecture.api.ApiService
+import com.riyas.cleanarchitecture.repository.RecipeRepository
+import com.riyas.cleanarchitecture.repository.RecipeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,6 +23,6 @@ object DataRepositoryModule {
 
     @Provides
     fun provideRecipeUseCase(recipeRepository: RecipeRepository): RecipeUseCase {
-        return RecipeUseCase(recipeRepository = recipeRepository)
+        return RecipeUseCase(recipeRepository)
     }
 }

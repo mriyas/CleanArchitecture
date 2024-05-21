@@ -1,4 +1,4 @@
-package com.riyas.cleanarchitecture.data.ui.components
+package com.riyas.cleanarchitecture.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi

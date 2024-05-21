@@ -1,4 +1,4 @@
-package com.riyas.cleanarchitecture.data.api
+package com.riyas.cleanarchitecture.api
 
 import javax.inject.Inject
 

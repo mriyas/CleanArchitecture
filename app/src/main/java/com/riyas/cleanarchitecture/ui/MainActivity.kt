@@ -1,4 +1,4 @@
-package com.riyas.cleanarchitecture.data.ui
+package com.riyas.cleanarchitecture.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -1,6 +1,6 @@
-package com.riyas.cleanarchitecture.data.repository
+package com.riyas.cleanarchitecture.repository
 
-import com.riyas.cleanarchitecture.data.api.ApiService
+import com.riyas.cleanarchitecture.api.ApiService
 import com.riyas.cleanarchitecture.data.model.ApiResponse
 import com.riyas.cleanarchitecture.data.network.toResultFlow
 import kotlinx.coroutines.CoroutineDispatcher
