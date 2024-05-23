@@ -1,4 +1,4 @@
-package com.riyas.cleanarchitecture.ui.components
+package com.riyas.cleanarchitecture.presentation.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

@@ -1,4 +1,4 @@
-package com.riyas.cleanarchitecture.ui.components
+package com.riyas.cleanarchitecture.presentation.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,17 +34,17 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.riyas.cleanarchitecture.R
-import com.riyas.cleanarchitecture.data.model.Recipe
+import com.riyas.cleanarchitecture.domain.models.Recipe
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun RecipeList(list: List<Recipe>) {
-    val bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
+internal fun RecipeList(recipes: List<Recipe>) {
+   /* val bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState)
     val scope = rememberCoroutineScope()
-    val selectedData = mutableStateOf<Recipe>(list[0])
-
+    val selectedData = mutableStateOf<Recipe>(recipes[0])
+*/
     Scaffold(
         topBar = {
             TopAppBar(
@@ -65,19 +65,17 @@ internal fun RecipeList(list: List<Recipe>) {
             verticalItemSpacing = 5.dp,
             modifier = Modifier.padding(it).fillMaxSize(),
             content = {
-                items(list.size) { index ->
-                    RecipeItem(list[index]) {
-                        scope.launch {
-                            selectedData.value = list[index]
+                items(recipes.size) { index ->
+                    RecipeItem(recipes[index]) {
+                        /*scope.launch {
+                            selectedData.value = recipes[index]
                             bottomSheetState.expand()
-                        }
+                        }*/
                     }
                 }
             }
         )
     }
-
-
 }
 
 

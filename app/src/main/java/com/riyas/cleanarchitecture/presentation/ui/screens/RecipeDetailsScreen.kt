@@ -1,4 +1,4 @@
-package com.riyas.cleanarchitecture.ui
+package com.riyas.cleanarchitecture.presentation.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.riyas.cleanarchitecture.R
-import com.riyas.cleanarchitecture.data.model.Recipe
-import com.riyas.cleanarchitecture.ui.components.BulletList
-import com.riyas.cleanarchitecture.ui.components.RecipeTags
+import com.riyas.cleanarchitecture.domain.models.Recipe
+import com.riyas.cleanarchitecture.presentation.ui.components.BulletList
+import com.riyas.cleanarchitecture.presentation.ui.components.RecipeTags
 
 @Composable
 fun RecipeDetailsScreen(

@@ -1,10 +1,10 @@
-package com.riyas.cleanarchitecture.viewmodel
+package com.riyas.cleanarchitecture.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.riyas.cleanarchitecture.data.model.ApiResponse
-import com.riyas.cleanarchitecture.data.network.ApiStatus
-import com.riyas.cleanarchitecture.data.usecases.RecipeUseCase
+import com.riyas.cleanarchitecture.data.utils.NetworkStatus
+import com.riyas.cleanarchitecture.domain.models.Recipe
+import com.riyas.cleanarchitecture.domain.usecases.RecipeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +16,9 @@ class RecipeViewModel @Inject constructor(
     private val recipeUseCase: RecipeUseCase
 ): ViewModel() {
 
-    private val _recipeDataState: MutableStateFlow<RecipeDataState> = MutableStateFlow(RecipeDataState.Loading)
+    private val _recipeDataState: MutableStateFlow<RecipeDataState> = MutableStateFlow(
+        RecipeDataState.Loading
+    )
     val recipeDataState = _recipeDataState.asStateFlow()
 
     fun fetchRecipe() {
@@ -24,25 +26,23 @@ class RecipeViewModel @Inject constructor(
             try {
                 recipeUseCase().collect{ response ->
                     when(response.status){
-                        ApiStatus.LOADING-> {
+                        NetworkStatus.LOADING-> {
                             _recipeDataState.value = RecipeDataState.Loading
                         }
-                        ApiStatus.SUCCESS-> {
+                        NetworkStatus.SUCCESS-> {
                             response.data?.let {
-                                _recipeDataState.value =  RecipeDataState.Success(it)
+                                _recipeDataState.value = RecipeDataState.Success(it.recipes)
                             }
-
                         }
-                        ApiStatus.ERROR-> {
+                        NetworkStatus.ERROR-> {
                             response.message?.let {
-                                _recipeDataState.value =  RecipeDataState.Error(it)
+                                _recipeDataState.value = RecipeDataState.Error(it)
                             }
-
                         }
                     }
                 }
             } catch (e: Exception) {
-                _recipeDataState.value =  RecipeDataState.Error("Failed to fetch data")
+                _recipeDataState.value = RecipeDataState.Error("Failed to fetch data")
             }
         }
     }
@@ -51,5 +51,5 @@ class RecipeViewModel @Inject constructor(
 sealed class RecipeDataState {
     data object Loading: RecipeDataState()
     data class Error(val errorMessage: String): RecipeDataState()
-    data class Success(val responseData: ApiResponse): RecipeDataState()
+    data class Success(val recipes: List<Recipe>): RecipeDataState()
 }

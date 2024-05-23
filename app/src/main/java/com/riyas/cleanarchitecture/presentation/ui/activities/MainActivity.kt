@@ -1,8 +1,9 @@
-package com.riyas.cleanarchitecture.ui
+package com.riyas.cleanarchitecture.presentation.ui.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.riyas.cleanarchitecture.presentation.ui.screens.RecipeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,12 +1,7 @@
-package com.riyas.cleanarchitecture.data.model
+package com.riyas.cleanarchitecture.domain.models
 
 import com.google.gson.annotations.SerializedName
 
-
-data class ApiResponse(
-    @SerializedName("recipes")
-    var list: List<Recipe>
-)
 data class Recipe (
     @SerializedName("id")
     val id: Int=0,

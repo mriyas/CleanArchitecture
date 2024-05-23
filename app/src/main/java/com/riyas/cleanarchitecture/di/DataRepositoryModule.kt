@@ -1,8 +1,11 @@
 package com.riyas.cleanarchitecture.di
 
-import com.riyas.cleanarchitecture.data.api.ApiService
-import com.riyas.cleanarchitecture.data.repository.RecipeRepository
-import com.riyas.cleanarchitecture.data.usecases.RecipeUseCase
+import com.riyas.cleanarchitecture.data.remote.ApiService
+import com.riyas.cleanarchitecture.data.remote.RecipeRemoteSource
+import com.riyas.cleanarchitecture.domain.repositories.RecipeRepository
+import com.riyas.cleanarchitecture.data.repositories.RecipeRepositoryImpl
+import com.riyas.cleanarchitecture.data.utils.NetworkUtils
+import com.riyas.cleanarchitecture.domain.usecases.RecipeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,11 +17,23 @@ import kotlinx.coroutines.CoroutineDispatcher
 object DataRepositoryModule {
 
     @Provides
-    fun provideDataRepository(
-        apiService: ApiService,
-        @IoDispatcher  dispatcher: CoroutineDispatcher,
+    fun provideRecipeRepository(
+        recipeRemoteSource: RecipeRemoteSource,
     ): RecipeRepository {
-        return RecipeRepository(apiService = apiService, dispatcher = dispatcher)
+        return RecipeRepositoryImpl(recipeRemoteSource = recipeRemoteSource)
+    }
+
+    @Provides
+    fun provideRecipeRemoteSource(
+        apiService: ApiService,
+        networkUtils: NetworkUtils,
+        @IoDispatcher  dispatcher: CoroutineDispatcher,
+    ): RecipeRemoteSource {
+        return RecipeRemoteSource(
+            apiService = apiService,
+            networkUtils = networkUtils,
+            dispatcher = dispatcher,
+        )
     }
 
     @Provides

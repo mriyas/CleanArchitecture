@@ -1,9 +1,12 @@
 package com.riyas.cleanarchitecture.di
 
-import com.riyas.cleanarchitecture.data.api.ApiService
+import android.content.Context
+import com.riyas.cleanarchitecture.data.remote.ApiService
+import com.riyas.cleanarchitecture.data.utils.NetworkUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,6 +14,7 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -56,5 +60,11 @@ object NetworkingModule {
     @Provides
     fun provideRestApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkUtils(@ApplicationContext context: Context): NetworkUtils {
+        return NetworkUtils(context)
     }
 }
