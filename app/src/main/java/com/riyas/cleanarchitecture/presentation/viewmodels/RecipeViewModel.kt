@@ -2,9 +2,9 @@ package com.riyas.cleanarchitecture.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.riyas.cleanarchitecture.data.utils.NetworkStatus
-import com.riyas.cleanarchitecture.domain.models.Recipe
-import com.riyas.cleanarchitecture.domain.usecases.RecipeUseCase
+import com.riyas.cleanarchitecture.data.models.Recipe
+import com.riyas.cleanarchitecture.data.utils.NetWorkResult
+import com.riyas.cleanarchitecture.domain.repository.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,32 +13,39 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
-    private val recipeUseCase: RecipeUseCase
-): ViewModel() {
+    private val repository: RecipeRepository
+) : ViewModel() {
 
     private val _recipeDataState: MutableStateFlow<RecipeDataState> = MutableStateFlow(
-        RecipeDataState.Loading
+        RecipeDataState.Idle
     )
     val recipeDataState = _recipeDataState.asStateFlow()
 
     fun fetchRecipe() {
         viewModelScope.launch {
             try {
-                recipeUseCase().collect{ response ->
-                    when(response.status){
-                        NetworkStatus.LOADING-> {
+                repository.getRecipes().collect { response ->
+                    when (response) {
+                        is NetWorkResult.Loading -> {
+                            println("Setting Loading State")
                             _recipeDataState.value = RecipeDataState.Loading
                         }
-                        NetworkStatus.SUCCESS-> {
+
+                        is NetWorkResult.Success -> {
+                            println("Setting Success State")
                             response.data?.let {
                                 _recipeDataState.value = RecipeDataState.Success(it.recipes)
                             }
                         }
-                        NetworkStatus.ERROR-> {
+
+                        is NetWorkResult.Error -> {
+                            println("Setting Error State")
                             response.message?.let {
                                 _recipeDataState.value = RecipeDataState.Error(it)
                             }
                         }
+
+                        is NetWorkResult.Idle -> {}
                     }
                 }
             } catch (e: Exception) {
@@ -49,7 +56,8 @@ class RecipeViewModel @Inject constructor(
 }
 
 sealed class RecipeDataState {
-    data object Loading: RecipeDataState()
-    data class Error(val errorMessage: String): RecipeDataState()
-    data class Success(val recipes: List<Recipe>): RecipeDataState()
+    data object Idle : RecipeDataState()
+    data object Loading : RecipeDataState()
+    data class Error(val errorMessage: String) : RecipeDataState()
+    data class Success(val recipes: List<Recipe>) : RecipeDataState()
 }

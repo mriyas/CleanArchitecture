@@ -2,14 +2,17 @@ package com.riyas.cleanarchitecture.presentation.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun ProgressIndicator(isDialogIndicator: Boolean = true, modifier: Modifier = Modifier) {
+fun ProgressIndicator(
+    modifier: Modifier = Modifier,
+    isDialogIndicator: Boolean = true,
+) {
     if (isDialogIndicator) {
         Dialog(onDismissRequest = { /*TODO*/ }) {
             ProgressBar(modifier = modifier)

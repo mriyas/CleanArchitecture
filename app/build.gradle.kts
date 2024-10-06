@@ -1,11 +1,9 @@
-import javax.print.attribute.IntegerSyntax
-
 plugins {
     id("kotlin-kapt")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
-
+    id("kotlin-parcelize")
 }
 
 android {
@@ -31,12 +29,14 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility =  JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+        jvmTarget = "1.8"
     }
 
     buildFeatures {
@@ -53,14 +53,20 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
+
     // Hilt
     implementation(libs.hilt)
+    debugImplementation(libs.androidx.ui.tooling)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.compose)
 
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+
    // implementation(libs.androidx.compose.runtime)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
@@ -68,6 +74,18 @@ dependencies {
 
     implementation(libs.coil.compose)
 
-    //implementation("com.google.dagger:hilt-android:2.44")
-    //ksp("com.google.dagger:hilt-android-compiler:2.44")
+    // Test dependencies
+    testImplementation(libs.test.coroutines)
+    testImplementation(libs.test.junit)
+
+    // Mockito for mocking the tests
+    testImplementation(libs.test.mockito.core)
+    testImplementation(libs.test.mockito.inline)
+    testImplementation(libs.test.mockito.kotlin)
+
+    // Mock web server
+    testImplementation(libs.test.mockwebserver)
+
+    // Plugin for testing Flow
+    testImplementation(libs.test.turbine)
 }

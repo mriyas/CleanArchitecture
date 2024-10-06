@@ -1,7 +1,10 @@
-package com.riyas.cleanarchitecture.domain.models
+package com.riyas.cleanarchitecture.data.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Recipe (
     @SerializedName("id")
     val id: Int=0,
@@ -31,4 +34,4 @@ data class Recipe (
     val reviewCount: Double=0.0,
     @SerializedName("image")
     val image: String="",
-)
+): Parcelable

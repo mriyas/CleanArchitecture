@@ -1,4 +1,4 @@
-package com.riyas.cleanarchitecture.domain.repositories
+package com.riyas.cleanarchitecture.domain.repository
 
 import com.riyas.cleanarchitecture.data.models.RecipeDto
 import com.riyas.cleanarchitecture.data.utils.NetWorkResult
